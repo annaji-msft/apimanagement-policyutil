@@ -31,7 +31,7 @@ namespace PolicyUtil
             //      - sourcecodefile
             foreach (var dir in System.IO.Directory.GetDirectories(rootDirectoryName))
             {
-                string policyMarkupFile = Directory.GetFiles(dir, "*.cshtml")[0];
+                string policyMarkupFile = Directory.GetFiles(dir, "*.xml")[0];
                 string policySourceCodeFilePath = Directory.GetFiles(dir, "*.cs")[0];
                    
                 ProcessSingle(policyMarkupFile, policySourceCodeFilePath);
@@ -52,8 +52,7 @@ namespace PolicyUtil
 
                 // string output = HttpUtility.HtmlDecode(xpolicyDoc.ToString());
 
-                var dir = Directory.GetDirectoryRoot(policyMarkupFilePath);
-                var outputFilePath = Path.Combine(dir, new DirectoryInfo(dir).Name + "generated.policy.xml");
+                var outputFilePath = Path.Combine(Path.GetDirectoryName(policyMarkupFilePath), Path.GetFileNameWithoutExtension(policyMarkupFilePath) + ".generated.policy.xml");
 
                 xpolicyDoc.Save(outputFilePath);
             } 
