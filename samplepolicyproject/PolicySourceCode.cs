@@ -1,10 +1,25 @@
 using System;
 using PolicyLib;
+using Newtonsoft.Json.Linq;
 
 namespace SamplePolicyProject
 {
     public class PolicySourceCode
     {
+        public static IProxyRequestContext context { get; }
+
+        public static bool CheckForToken()
+        {
+            return context.Variables.ContainsKey("tokens")
+                && ((JObject)context.Variables["tokens"]).GetValue("Token", StringComparison.OrdinalIgnoreCase) != null
+                && !string.IsNullOrEmpty((string)((JObject)((JObject)context.Variables["tokens"]).GetValue("Token", StringComparison.OrdinalIgnoreCase)).GetValue("AccessToken", StringComparison.OrdinalIgnoreCase));
+        }
+
+        public static string GetAuthHeaderValue()
+        {
+            return " Bearer " + (string)((JObject)((JObject)context.Variables["tokens"]).GetValue("Token", StringComparison.OrdinalIgnoreCase)).GetValue("AccessToken", StringComparison.OrdinalIgnoreCase);
+        }
+
         public static string GenerateCorrelationId()
         {
             var guidBinary = new byte[16];

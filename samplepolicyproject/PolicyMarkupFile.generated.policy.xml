@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<policies>
+    <inbound>
+        <rate-limit-by-key counter-key="@((string)context.Request.MatchedParameters[&quot;apiId&quot;])" calls="100" renewal-period="60" flexible-retry-window="true" />
+        <base />
+        <set-header name="correlationid" exists-action="skip">
+	        <value>@{var guidBinary = new byte[16];Array.Copy(Guid.NewGuid().ToByteArray(), 0, guidBinary, 0, 10);long time = DateTime.Now.Ticks;byte[] bytes = new byte[6];unchecked{bytes[5] = (byte)(time &gt;&gt; 40);bytes[4] = (byte)(time &gt;&gt; 32);bytes[3] = (byte)(time &gt;&gt; 24);bytes[2] = (byte)(time &gt;&gt; 16);bytes[1] = (byte)(time &gt;&gt; 8);bytes[0] = (byte)(time);}Array.Copy(bytes, 0, guidBinary, 10, 6);return new Guid(guidBinary).ToString();}</value>
+        </set-header>
+        <choose>
+            <when condition="@{return context.Variables.ContainsKey(&quot;tokens&quot;) &amp;&amp; ((JObject)context.Variables[&quot;tokens&quot;]).GetValue(&quot;Token&quot;, StringComparison.OrdinalIgnoreCase) != null &amp;&amp; !string.IsNullOrEmpty((string)((JObject)((JObject)context.Variables[&quot;tokens&quot;]).GetValue(&quot;Token&quot;, StringComparison.OrdinalIgnoreCase)).GetValue(&quot;AccessToken&quot;, StringComparison.OrdinalIgnoreCase));}">
+                <set-header name="Authorization" exists-action="override">
+                <value>@{return " Bearer " + (string)((JObject)((JObject)context.Variables["tokens"]).GetValue("Token", StringComparison.OrdinalIgnoreCase)).GetValue("AccessToken", StringComparison.OrdinalIgnoreCase);}</value>
+                </set-header>
+            </when>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

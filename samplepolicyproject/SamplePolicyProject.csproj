@@ -4,6 +4,10 @@
     <ProjectReference Include="..\policylib\policylib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="newtonsoft.json" Version="12.0.2" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>

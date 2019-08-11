@@ -8,7 +8,7 @@
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "buildAll",
             "program": "${workspaceFolder}/policyutil/bin/Debug/netcoreapp2.2/policyutil.dll",
             "args": [
                 "single", 
