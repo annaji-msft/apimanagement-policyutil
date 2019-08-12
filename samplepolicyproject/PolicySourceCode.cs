@@ -6,7 +6,7 @@ namespace SamplePolicyProject
 {
     public class PolicySourceCode
     {
-        public static IProxyRequestContext context { get; }
+        public static IProxyRequestContext context { get; set; }
 
         public static bool CheckForToken()
         {
