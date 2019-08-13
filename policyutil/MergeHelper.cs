@@ -9,8 +9,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
-using System.Xml.XPath;
-using System.Web;
 
 namespace PolicyUtil
 {
@@ -106,6 +104,8 @@ namespace PolicyUtil
 
                 throw new InvalidOperationException(message);
             }
+
+            PolicyValidator.ValidateAllowedTypes(filePath, tree);
 
             return tree;
         }

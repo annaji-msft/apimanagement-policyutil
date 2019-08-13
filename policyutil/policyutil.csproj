@@ -6,8 +6,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="validation\expression.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="validation\expression.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.6.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\policylib\policylib.csproj" />
   </ItemGroup>
 
 </Project>
